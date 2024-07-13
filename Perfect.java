@@ -1,6 +1,12 @@
 public class Perfect {
 
     public static void main(String[] args) {
+        /*
+         * Test Cases:
+         * Numbers 1 to 1000: Verified each number to see if it is a perfect number.
+         * Expected perfect numbers within this range are 6, 28, 496.
+         */
+
         int sum = 0;
         // Find all perfect numbers between 1 and 1000.
         for (int i = 1; i < 1000; i++) {

@@ -1,23 +1,17 @@
-public class CalculateMultiplication {
+public class LargeNumberMultiplicationandDivision {
 
-    /**
-     * 
-     * Test Cases:
-     * Multiplication of 12345678901234567890 and 98765432109876543210: Verify the
-     * correctness of the product.
-     * Division of 12345678901234567890 by 9876543210: Verify the correctness of the
-     * quotient with an accuracy of 20 decimal places.
-     */
     public static void main(String[] args) {
         // Test multiplication
-        // Multiplication of 12345678901234567890 and 98765432109876543210:
-        // Expected Output: 1219326311370217952237463801111263526900
+        // Multiplication of two large numbers up-to 100 decimal digits. For example,
+        // the
+        // product of 12345678901234567890 and 98765432109876543210 is
+        // 1219326311370217952237463801111263526900.
         System.out.println(longMultiplication("12345678901234567890", "98765432109876543210"));
 
         // Test division
         // Division of 12345678901234567890 by 9876543210:
         // Expected Output: 1249999990.1234567890123456789
-        System.out.println(longDivision("12345678901234567890", "9876543210"));
+        System.out.println(longDivision("500", "4"));
 
     }
 
@@ -102,28 +96,10 @@ public class CalculateMultiplication {
 
             for (int j = 0; j < divisors.length; j++) {
                 // Calculate the quotient by dividing the current value by the divisor.
-                // It might have error like ArithmeticException. So, we need to handle it by
-                // making it quited.
-                try {
-                    quotient = current / divisors[j];
-                } catch (ArithmeticException e) {
-                    quotient = 0;
-                }
-
+                quotient = current / divisors[j];
                 // Calculate the remainder by taking the modulo of the current value and the
                 // divisor.
-                // It might have error like ArithmeticException. So, we need to handle it by
-                // making it quited.
-                try {
-                    remainder = current % divisors[j];
-                } catch (ArithmeticException e) {
-                    remainder = 0;
-                }
-
-                // If the quotient is not zero, break the loop.
-                if (quotient != 0) {
-                    break;
-                }
+                remainder = current % divisors[j];
 
             }
 
