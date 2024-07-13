@@ -1,37 +1,141 @@
 public class CalculateMultiplication {
-    public static void main(String[] args) {
-        String a = "1235421415454545454545454544";
-        String b = "234234234";
 
-        System.out.println(multiplying(a, b));
+    /**
+     * 
+     * Test Cases:
+     * Multiplication of 12345678901234567890 and 98765432109876543210: Verify the
+     * correctness of the product.
+     * Division of 12345678901234567890 by 9876543210: Verify the correctness of the
+     * quotient with an accuracy of 20 decimal places.
+     */
+    public static void main(String[] args) {
+        // Test multiplication
+        // Multiplication of 12345678901234567890 and 98765432109876543210:
+        // Expected Output: 1219326311370217952237463801111263526900
+        System.out.println(longMultiplication("12345678901234567890", "98765432109876543210"));
+
+        // Test division
+        // Division of 12345678901234567890 by 9876543210:
+        // Expected Output: 1249999990.1234567890123456789
+        System.out.println(longDivision("12345678901234567890", "9876543210"));
 
     }
 
-    public static String multiplying(String a, String b) {
-        // The maximum length of the result is the sum of the lengths of the two input
-        // strings.
-        int[] result = new int[a.length() + b.length()];
+    public static String longMultiplication(String a, String b) {
+        // The maximum length of the result is the length of the first input string.
+        int[] possibliyResultLength = new int[a.length() + b.length()];
 
-        // Loop through the two input strings in reverse order.
-        for (int i = a.length() - 1; i >= 0; i--) {
-            // Multiply the two digits and add the result to the current result.
-            for (int j = b.length() - 1; j >= 0; j--) {
-                // The product of the two digits is the product of the two digits plus the
-                // current result.
-                int product = (a.charAt(i) - '0') * (b.charAt(j) - '0');
-                // The sum is the product plus the current result.
-                int sum = product + result[i + j + 1];
-                // The current result is the sum modulo 10.
-                result[i + j] += sum / 10;
-                // The next result is the sum modulo 10.
-                result[i + j + 1] = sum % 10;
+        // Reverse the numbers for easier calculation from right to left
+        a = new StringBuilder(a).reverse().toString();
+        b = new StringBuilder(b).reverse().toString();
+
+        // Multiply each digit
+        for (int i = 0; i < a.length(); i++) {
+            for (int j = 0; j < b.length(); j++) {
+                // Multiply the digits and add the result to the current index.
+                int multiply = (a.charAt(i) - '0') * (b.charAt(j) - '0');
+                // Add the result to the current index.
+                possibliyResultLength[i + j] += multiply;
+
+                // Handle carry over if the result is greater than 10 and store the carry over
+                // in the next index.
+                if (possibliyResultLength[i + j] >= 10) {
+                    // Add the carry over to the next index and store the remainder in the current
+                    // index.
+                    possibliyResultLength[i + j + 1] += possibliyResultLength[i + j] / 10;
+                    // Store the remainder in the current index. This is equivalent to taking the
+                    // modulo of the result.
+                    possibliyResultLength[i + j] %= 10;
+                }
             }
         }
 
-        // Convert the result to a string.
+        // Convert result array to string
+        StringBuilder resultStr = new StringBuilder();
+        boolean leadingZero = true;
+        // In the possibliyResultLength array, the result is stored in reverse order.
+        // So, we need to reverse it again. Also, we need to skip leading zeros.
+        for (int i = possibliyResultLength.length - 1; i >= 0; i--) {
+            if (possibliyResultLength[i] == 0 && leadingZero) {
+                continue;
+            }
+            leadingZero = false;
+            resultStr.append(possibliyResultLength[i]);
+        }
+
+        // If the result is all zeros
+        if (resultStr.length() == 0) {
+            return "0";
+        }
+
+        return resultStr.toString();
+    }
+
+    public static String longDivision(String a, String b) {
+        // Variables to store quotient and remainder
+        int quotient = 0;
+        int remainder = 0;
+
+        // The maximum length of the result is the length of the first input string.
+        int[] dividends = new int[a.length()];
+
+        // Get each digit of the dividend
+        for (int i = 0; i < a.length(); i++) {
+            // Convert the character to an integer and store it in the dividends array.
+            dividends[i] = Character.getNumericValue(a.charAt(i));
+        }
+
+        // the maximum length of the result is the length of the first input string.
+        int[] divisors = new int[b.length()];
+
+        // Get each digit of the divisor
+        for (int i = 0; i < b.length(); i++) {
+            // Convert the character to an integer and store it in the divisors array.
+            divisors[i] = Character.getNumericValue(b.charAt(i));
+        }
+
+        int current = 0;
+        // Loop through the dividend array and perform long division.
+        for (int i = 0; i < dividends.length; i++) {
+            // Multiply the current value by 10 and add the next digit of the dividend.
+            current = current * 10 + dividends[i];
+
+            for (int j = 0; j < divisors.length; j++) {
+                // Calculate the quotient by dividing the current value by the divisor.
+                // It might have error like ArithmeticException. So, we need to handle it by
+                // making it quited.
+                try {
+                    quotient = current / divisors[j];
+                } catch (ArithmeticException e) {
+                    quotient = 0;
+                }
+
+                // Calculate the remainder by taking the modulo of the current value and the
+                // divisor.
+                // It might have error like ArithmeticException. So, we need to handle it by
+                // making it quited.
+                try {
+                    remainder = current % divisors[j];
+                } catch (ArithmeticException e) {
+                    remainder = 0;
+                }
+
+                // If the quotient is not zero, break the loop.
+                if (quotient != 0) {
+                    break;
+                }
+
+            }
+
+            // Store the remainder in the current variable for the next iteration.
+            current = remainder;
+            // Store the quotient in the dividends array for the next iteration.
+            dividends[i] = quotient;
+        }
+
         StringBuilder sb = new StringBuilder();
         // Loop through the result and append each digit to the string builder.
-        for (int num : result) {
+        for (int num : dividends) {
             // Skip leading zeros.
             if (!(sb.length() == 0 && num == 0)) {
                 sb.append(num);
@@ -41,6 +145,7 @@ public class CalculateMultiplication {
         // If the string builder is empty, return "0", otherwise return the String
         // Class.
         return sb.length() == 0 ? "0" : sb.toString();
+
     }
 
 }

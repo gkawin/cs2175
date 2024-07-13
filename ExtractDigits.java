@@ -5,13 +5,19 @@ import java.util.Scanner;
 public class ExtractDigits {
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        /**
+         * Test Cases:
+         * Number 15423: (Expected Output: "3 2 4 5 1").
+         * Number 987654321: (Expected Output: "1 2 3 4 5 6 7 8 9").
+         * Number 1000: (Expected Output: "0 0 0 1").
+         */
 
-        System.out.println("Enter a number: ");
+        extractDigits(15423);
+        extractDigits(987654321);
+        extractDigits(1000);
+    }
 
-        int number = sc.nextInt();
-        sc.close();
-
+    public static void extractDigits(int number) {
         int reversedNumber = 0;
         // Loop until the number is greater than 0.
         while (number > 0) {
@@ -23,9 +29,11 @@ public class ExtractDigits {
             // Remove the last digit by dividing the number by 10.
             number /= 10;
 
-            System.out.println("Digit: " + digit + " Reversed number: " + reversedNumber + " Number: " + number);
+            System.out.print(digit + " ");
+
         }
 
-        System.out.println("Reversed number: " + reversedNumber);
+        System.out.println();
+
     }
 }
