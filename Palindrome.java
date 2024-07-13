@@ -11,8 +11,11 @@ public class Palindrome {
 
         // Remove space and punctuation from the text.
         String cleanText = "";
+        // Loop through each character in the text.
         for (int i = 0; i < text.length(); i++) {
+            // Check if the character is a letter.
             char c = text.charAt(i);
+            // If the character is a letter, add it to the clean text.
             if (Character.isLetter(c)) {
                 cleanText += c;
             }

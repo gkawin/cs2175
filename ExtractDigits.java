@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+// Should not use the toString() method.
+
 public class ExtractDigits {
 
     public static void main(String[] args) {
